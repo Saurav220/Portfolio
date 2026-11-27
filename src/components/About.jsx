@@ -26,7 +26,7 @@ const narrativeCards = [
     label: "What I Do",
     accentClass: "text-[var(--accent-text)]",
     content:
-      "I build AI-native platforms and automation systems at scale. From architecting real-time messaging ecosystems to designing ACL permission management across distributed Linux file systems — I turn complex engineering challenges into maintainable solutions.",
+      "I build AI-native platforms and automation systems at scale. From architecting real-time messaging ecosystems to designing ACL permission management across distributed Linux file systems, I turn complex engineering challenges into maintainable solutions.",
   },
   {
     icon: Compass,
@@ -53,16 +53,16 @@ export default function About() {
           About
         </motion.h2>
 
-        <div ref={ref} className="space-y-4">
+        <div ref={ref} className="space-y-6">
           {/* Top Metadata Strip */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {metaCards.map((item, i) => {
               const Icon = item.icon;
               return (
                 <TiltCard
                   key={item.label}
                   className="bento-card !p-5"
-                  maxTilt={4.5}
+                  maxTilt={9}
                   initial={{ opacity: 0, y: 18 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: i * 0.07, ease: [0.22, 1, 0.36, 1] }}
@@ -108,14 +108,14 @@ export default function About() {
           </div>
 
           {/* Editorial Narrative Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {narrativeCards.map((card, i) => {
               const Icon = card.icon;
               return (
                 <TiltCard
                   key={card.label}
                   className="bento-card h-full"
-                  maxTilt={4}
+                  maxTilt={8}
                   initial={{ opacity: 0, y: 18 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{

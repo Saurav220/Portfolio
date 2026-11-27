@@ -13,7 +13,7 @@ function EducationCard({ item, index }) {
       ref={ref}
       as="article"
       className="bento-card"
-      maxTilt={3.5}
+      maxTilt={7}
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{
@@ -95,7 +95,7 @@ export default function Education() {
           Education
         </motion.h2>
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-7">
           {education.map((item, i) => (
             <EducationCard key={item.institution} item={item} index={i} />
           ))}

@@ -66,11 +66,11 @@ export const caseStudies = [
     title: "AI-Native Messaging Platform",
     period: "Sep 2024 — Present",
     problem:
-      "TCS needed an AI-focused messaging ecosystem built from zero to one — no existing product, no established interaction patterns for AI-driven communication.",
+      "TCS needed an AI-focused messaging ecosystem built from zero to one, no existing product, no established interaction patterns for AI-driven communication.",
     approach:
       "Architected and built the platform's core product features and real-time systems, including new ways to transform and present information dynamically within the messaging interface, bridging product strategy and technical execution within a lean team.",
     outcome:
-      "Took the product from an idea to a working, in-production architecture — now the team's core AI-native messaging platform.",
+      "Took the product from an idea to a working, in-production architecture, now the team's core AI-native messaging platform.",
     tags: ["AI/ML", "Real-time Systems", "Product Strategy"],
   },
   {
@@ -93,11 +93,11 @@ export const caseStudies = [
     title: "Agentic AI Systems",
     period: "Jul 2023 — Aug 2024",
     problem:
-      "Explored what it would take for autonomous, goal-driven AI agents to handle tasks without constant human direction — including rethinking the browser-centric interaction model itself.",
+      "Explored what it would take for autonomous, goal-driven AI agents to handle tasks without constant human direction including rethinking the browser-centric interaction model itself.",
     approach:
       "Designed and developed agentic AI systems capable of autonomous, goal-driven behavior, and prototyped agent-driven interfaces where personal data feeds directly into the interaction model as an alternative to traditional web browsing.",
     outcome:
-      "Delivered functioning autonomous, goal-driven agents — hands-on groundwork in the agentic AI patterns that are now industry-wide.",
+      "Delivered functioning autonomous, goal-driven agents, hands-on groundwork in the agentic AI patterns that are now industry-wide.",
     tags: ["Agentic AI", "Automation", "Prototyping"],
     wide: true,
   },

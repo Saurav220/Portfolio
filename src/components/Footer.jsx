@@ -11,7 +11,7 @@ export default function Footer() {
 
   return (
     <footer
-      className="w-full max-w-[52rem] pt-8 mt-4 border-t"
+      className="w-full max-w-[52rem] pt-8 mt-8 border-t"
       style={{ borderColor: "var(--border-subtle)" }}
     >
       <motion.div

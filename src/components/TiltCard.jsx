@@ -13,7 +13,8 @@ const TiltCard = forwardRef(function TiltCard(
     children,
     className = "",
     as = "div",
-    maxTilt = 4,
+    maxTilt = 8,
+    floatDistance = 8,
     glare = true,
     style,
     initial,
@@ -30,16 +31,18 @@ const TiltCard = forwardRef(function TiltCard(
   const mouseY = useMotionValue(0.5);
   const isHovering = useMotionValue(0);
 
-  const springConfig = { stiffness: 260, damping: 24, mass: 0.6 };
+  const springConfig = { stiffness: 210, damping: 18, mass: 0.7 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
-  const smoothHover = useSpring(isHovering, { stiffness: 280, damping: 28 });
+  const smoothHover = useSpring(isHovering, { stiffness: 220, damping: 20, mass: 0.7 });
 
   const rotateX = useTransform(smoothY, [0, 1], [maxTilt, -maxTilt]);
   const rotateY = useTransform(smoothX, [0, 1], [-maxTilt, maxTilt]);
+  const hoverY = useTransform(smoothHover, [0, 1], [0, -floatDistance]);
+  const hoverScale = useTransform(smoothHover, [0, 1], [1, 1.012]);
   const glareX = useTransform(smoothX, [0, 1], [0, 100]);
   const glareY = useTransform(smoothY, [0, 1], [0, 100]);
-  const glareBackground = useMotionTemplate`radial-gradient(280px circle at ${glareX}% ${glareY}%, var(--tilt-glare-color), transparent 72%)`;
+  const glareBackground = useMotionTemplate`radial-gradient(300px circle at ${glareX}% ${glareY}%, var(--tilt-glare-color), transparent 72%)`;
 
   useEffect(() => {
     if (typeof window === "undefined" || prefersReducedMotion) {
@@ -73,17 +76,27 @@ const TiltCard = forwardRef(function TiltCard(
   const MotionTag = as === "article" ? motion.article : motion.div;
 
   return (
-    <div ref={ref} className="[perspective:1000px]">
+    <motion.div
+      ref={ref}
+      className="[perspective:1000px]"
+      initial={initial}
+      animate={animate}
+      transition={transition}
+    >
       <MotionTag
         className={`relative ${className}`}
         style={{
           transformStyle: "preserve-3d",
-          ...(canTilt ? { rotateX, rotateY } : {}),
+          ...(canTilt
+            ? {
+                rotateX,
+                rotateY,
+                y: hoverY,
+                scale: hoverScale,
+              }
+            : {}),
           ...style,
         }}
-        initial={initial}
-        animate={animate}
-        transition={transition}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
         {...rest}
@@ -100,7 +113,7 @@ const TiltCard = forwardRef(function TiltCard(
         )}
         <div className="relative z-10 flex h-full w-full flex-col">{children}</div>
       </MotionTag>
-    </div>
+    </motion.div>
   );
 });
 

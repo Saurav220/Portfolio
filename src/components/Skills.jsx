@@ -189,7 +189,7 @@ export default function Skills() {
             {!showFullStack ? (
               <motion.div
                 key="marquee"
-                className="tech-marquee mt-8"
+                className="tech-marquee mt-9"
                 aria-label="Moving row of core technologies"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -208,7 +208,7 @@ export default function Skills() {
             ) : (
               <motion.div
                 key="full-stack"
-                className="full-stack-grid mt-8"
+                className="full-stack-grid mt-9"
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -8 }}
@@ -218,7 +218,7 @@ export default function Skills() {
                   <TiltCard
                     key={group.title}
                     className="bento-card !p-5 full-stack-group h-full"
-                    maxTilt={3.5}
+                    maxTilt={7}
                   >
                     <h3>{group.title}</h3>
                     <ul>

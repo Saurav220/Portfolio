@@ -13,7 +13,7 @@ function CaseStudyCard({ study, index }) {
       ref={ref}
       as="article"
       className="bento-card flex flex-col"
-      maxTilt={2.5}
+      maxTilt={5}
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{
@@ -68,10 +68,10 @@ function CaseStudyCard({ study, index }) {
       </div>
 
       {/* Hairline Divider */}
-      <div className="my-4 h-px w-full" style={{ background: "var(--border-subtle)" }} />
+      <div className="my-5 h-px w-full" style={{ background: "var(--border-subtle)" }} />
 
       {/* Case Study Body */}
-      <div className="space-y-4">
+      <div className="space-y-5">
         <div>
           <p
             className="text-[0.68rem] font-mono font-semibold uppercase tracking-[0.14em] mb-1.5"
@@ -110,7 +110,7 @@ function CaseStudyCard({ study, index }) {
       </div>
 
       {/* Stack / Domain Tags */}
-      <div className="mt-5 pt-4 border-t flex flex-wrap gap-2" style={{ borderColor: "var(--border-subtle)" }}>
+      <div className="mt-6 pt-5 border-t flex flex-wrap gap-2.5" style={{ borderColor: "var(--border-subtle)" }}>
         {study.tags.map((tag) => (
           <span
             key={tag}
@@ -142,7 +142,7 @@ export default function Projects() {
           Product Journey
         </motion.h2>
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-7">
           {caseStudies.map((study, i) => (
             <CaseStudyCard key={study.title} study={study} index={i} />
           ))}

@@ -41,7 +41,7 @@ function ExperienceCard({ item, index }) {
       ref={ref}
       as="article"
       className="bento-card"
-      maxTilt={2.5}
+      maxTilt={5}
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.55, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
@@ -103,10 +103,10 @@ function ExperienceCard({ item, index }) {
       </div>
 
       {/* Hairline Divider */}
-      <div className="my-4 h-px w-full" style={{ background: "var(--border-subtle)" }} />
+      <div className="my-5 h-px w-full" style={{ background: "var(--border-subtle)" }} />
 
       {/* Responsibilities */}
-      <ul className="space-y-3">
+      <ul className="space-y-3.5">
         {item.description.map((desc, i) => (
           <li
             key={i}
@@ -145,7 +145,7 @@ export default function Experience() {
           Experience
         </motion.h2>
 
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-7">
           {experience.map((item, i) => (
             <ExperienceCard key={item.company} item={item} index={i} />
           ))}

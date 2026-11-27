@@ -91,29 +91,15 @@ export default function Hero() {
         {/* 3D Portrait with subtle Noir ambient glow */}
         <motion.div variants={itemVariants} className="mb-4 sm:mb-5 relative">
           <div
-            className="absolute -inset-6 rounded-full blur-2xl pointer-events-none hero-ambient-glow"
+            className="hero-portrait-glow hero-ambient-glow absolute -inset-6 rounded-full blur-2xl pointer-events-none"
             aria-hidden="true"
           />
-          <TiltCard maxTilt={6} glare={false} className="rounded-2xl">
-            <div
-              className="w-36 h-36 sm:w-44 sm:h-44 rounded-2xl mx-auto flex items-center justify-center overflow-hidden relative drop-shadow-[0_18px_28px_rgba(0,0,0,0.45)]"
-              style={{
-                WebkitMaskImage:
-                  "radial-gradient(ellipse 88% 88% at 50% 45%, #000 66%, transparent 100%)",
-                maskImage:
-                  "radial-gradient(ellipse 88% 88% at 50% 45%, #000 66%, transparent 100%)",
-              }}
-            >
+          <TiltCard maxTilt={12} floatDistance={6} glare={false}>
+            <div className="hero-portrait-float w-36 h-36 sm:w-44 sm:h-44 mx-auto flex items-center justify-center relative">
               <img
                 src={avatarImg}
                 alt={personalInfo.name}
-                className="absolute inset-0 w-full h-full object-contain grayscale"
-              />
-              <div
-                className="absolute bottom-0 left-0 right-0 h-2/5 pointer-events-none"
-                style={{
-                  background: "linear-gradient(to top, var(--bg-primary), transparent)",
-                }}
+                className="hero-portrait-img w-full h-full object-contain"
               />
             </div>
           </TiltCard>
@@ -170,7 +156,7 @@ export default function Hero() {
         {/* 3D Action Row */}
         <motion.div
           variants={itemVariants}
-          className="mt-6 flex flex-wrap items-center justify-center gap-3"
+          className="mt-7 flex flex-wrap items-center justify-center gap-4"
         >
           <a
             href="#projects"

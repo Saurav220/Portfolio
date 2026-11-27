@@ -130,12 +130,12 @@ export default function GitHubContributions() {
         <TiltCard
           ref={ref}
           className="bento-card"
-          maxTilt={2}
+          maxTilt={4}
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 mb-5">
             <p className="text-sm font-medium" style={{ color: "var(--text-primary)" }}>
               {data.total !== null
                 ? `${data.total.toLocaleString()} contributions in the last year`
@@ -208,7 +208,7 @@ export default function GitHubContributions() {
           </div>
 
           <div
-            className="mt-3 pt-3 border-t flex flex-wrap items-center justify-between gap-3 text-xs"
+            className="mt-4 pt-4 border-t flex flex-wrap items-center justify-between gap-3 text-xs"
             style={{
               borderColor: "var(--border-subtle)",
               color: "var(--text-muted)",

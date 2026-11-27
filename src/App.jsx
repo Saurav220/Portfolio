@@ -8,10 +8,8 @@ import Experience from "./components/Experience";
 import Projects from "./components/Projects";
 import Skills from "./components/Skills";
 import GitHubContributions from "./components/GitHubContributions";
-
 import Education from "./components/Education";
 import Contact from "./components/Contact";
-import Footer from "./components/Footer";
 import AgentModeView from "./components/AgentModeView";
 
 function AppContent() {
@@ -40,11 +38,8 @@ function AppContent() {
         <Education />
         <GitHubContributions />
         <Skills />
-
         <Contact />
       </main>
-
-      <Footer />
     </div>
   );
 }
