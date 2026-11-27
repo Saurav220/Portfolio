@@ -1,95 +1,127 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { projects } from "../data/portfolio";
-import { ArrowUpRight } from "lucide-react";
+import { caseStudies } from "../data/portfolio";
+import TiltCard from "./TiltCard";
 
-function ProjectCard({ project, index }) {
+function CaseStudyCard({ study, index }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-60px" });
-
-  const sizeClasses = {
-    large: "md:col-span-1",
-    medium: "md:col-span-1",
-    small: "md:col-span-1",
-  };
+  const isCurrent = study.period.toLowerCase().includes("present");
 
   return (
-    <motion.a
+    <TiltCard
       ref={ref}
-      href={project.link}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={`bento-card group relative flex flex-col justify-between overflow-hidden ${sizeClasses[project.size] || ""}`}
-      initial={{ opacity: 0, y: 30, scale: 0.97 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+      as="article"
+      className="bento-card flex flex-col"
+      maxTilt={2.5}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{
-        duration: 0.6,
+        duration: 0.55,
         delay: index * 0.08,
         ease: [0.22, 1, 0.36, 1],
       }}
-      whileHover={{ y: -4 }}
     >
-      {/* Glow effect on hover */}
-      <div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(400px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(56,189,248,0.06), transparent 60%)",
-        }}
-      />
+      {/* Header matching Experience & Education */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5 min-w-0">
+          <span
+            className="badge-3d inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-xs font-mono font-bold tracking-wide"
+            aria-hidden="true"
+          >
+            <span className={study.companyClassName}>{study.company}</span>
+          </span>
 
-      {/* Featured badge */}
-      {project.featured && (
+          <div className="min-w-0">
+            <h3
+              className="text-base sm:text-lg font-semibold tracking-tight leading-snug"
+              style={{ color: "var(--text-primary)" }}
+            >
+              {study.title}
+            </h3>
+            <p className="text-sm mt-0.5" style={{ color: "var(--text-secondary)" }}>
+              {study.companyFull}
+            </p>
+          </div>
+        </div>
+
         <div
-            className="inline-flex self-start px-2.5 py-1 rounded-full text-[0.65rem] font-semibold uppercase tracking-wider mb-6"
+          className="pill-3d self-start sm:self-center inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-mono tabular-nums shrink-0"
           style={{
-            background: "var(--color-accent-subtle)",
-            color: "var(--color-accent)",
+            color: isCurrent ? "var(--text-primary)" : "var(--text-muted)",
           }}
         >
-          Featured
+          {isCurrent && (
+            <span className="relative flex h-1.5 w-1.5 shrink-0" aria-hidden="true">
+              <span
+                className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                style={{ background: "var(--accent-text)" }}
+              />
+              <span
+                className="relative inline-flex rounded-full h-1.5 w-1.5"
+                style={{ background: "var(--accent-text)" }}
+              />
+            </span>
+          )}
+          <span>{study.period}</span>
         </div>
-      )}
-
-      <div className="flex-1">
-        <div className="flex items-start justify-between gap-4 mb-4">
-          <h3
-            className="text-xl font-semibold"
-            style={{ color: "var(--text-primary)" }}
-          >
-            {project.title}
-          </h3>
-          <ArrowUpRight
-            size={18}
-            className="opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-            style={{ color: "var(--color-accent)" }}
-          />
-        </div>
-        <p
-          className="text-sm leading-relaxed mb-7"
-          style={{ color: "var(--text-secondary)" }}
-        >
-          {project.description}
-        </p>
       </div>
 
-      {/* Tags */}
-      <div className="flex flex-wrap gap-2.5">
-        {project.tags.map((tag) => (
+      {/* Hairline Divider */}
+      <div className="my-4 h-px w-full" style={{ background: "var(--border-subtle)" }} />
+
+      {/* Case Study Body */}
+      <div className="space-y-4">
+        <div>
+          <p
+            className="text-[0.68rem] font-mono font-semibold uppercase tracking-[0.14em] mb-1.5"
+            style={{ color: "var(--text-muted)" }}
+          >
+            Problem
+          </p>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            {study.problem}
+          </p>
+        </div>
+
+        <div>
+          <p
+            className="text-[0.68rem] font-mono font-semibold uppercase tracking-[0.14em] mb-1.5"
+            style={{ color: "var(--text-muted)" }}
+          >
+            Approach
+          </p>
+          <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>
+            {study.approach}
+          </p>
+        </div>
+
+        <div className="outcome-3d rounded-r-lg px-3.5 py-3">
+          <p
+            className="text-[0.65rem] font-mono font-bold uppercase tracking-[0.16em] mb-1"
+            style={{ color: "var(--accent-text)" }}
+          >
+            Outcome
+          </p>
+          <p className="text-sm leading-relaxed font-medium" style={{ color: "var(--text-primary)" }}>
+            {study.outcome}
+          </p>
+        </div>
+      </div>
+
+      {/* Stack / Domain Tags */}
+      <div className="mt-5 pt-4 border-t flex flex-wrap gap-2" style={{ borderColor: "var(--border-subtle)" }}>
+        {study.tags.map((tag) => (
           <span
             key={tag}
-            className="px-2.5 py-1 rounded-md text-xs font-medium"
-            style={{
-              background: "var(--bg-elevated)",
-              color: "var(--text-muted)",
-              border: "1px solid var(--border-color)",
-            }}
+            className="pill-3d px-2.5 py-1 rounded-md text-xs font-mono"
+            style={{ color: "var(--text-secondary)" }}
           >
             {tag}
           </span>
         ))}
       </div>
-    </motion.a>
+    </TiltCard>
   );
 }
 
@@ -110,9 +142,9 @@ export default function Projects() {
           Product Journey
         </motion.h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-          {projects.map((project, i) => (
-            <ProjectCard key={project.title} project={project} index={i} />
+        <div className="flex flex-col gap-5">
+          {caseStudies.map((study, i) => (
+            <CaseStudyCard key={study.title} study={study} index={i} />
           ))}
         </div>
       </div>

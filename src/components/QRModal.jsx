@@ -1,12 +1,83 @@
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { Check, Copy, X } from "lucide-react";
+import QRCode from "qrcode";
+
+const FALLBACK_URL = "https://portfolio-62s2.onrender.com/";
 
 export default function QRModal({ isOpen, onClose }) {
+  const [qrDataUrl, setQrDataUrl] = useState("");
+  const [copied, setCopied] = useState(false);
+  const copyTimerRef = useRef(null);
+
+  const shareUrl =
+    typeof window !== "undefined" && window.location?.href
+      ? window.location.href
+      : FALLBACK_URL;
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    let cancelled = false;
+    QRCode.toDataURL(shareUrl, {
+      width: 220,
+      margin: 1,
+      color: {
+        dark: "#0a0a0f",
+        light: "#ffffff",
+      },
+    })
+      .then((url) => {
+        if (!cancelled) setQrDataUrl(url);
+      })
+      .catch(() => {
+        // Ignore generation errors gracefully
+      });
+
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      cancelled = true;
+      window.removeEventListener("keydown", handleKeyDown);
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+    };
+  }, [isOpen, shareUrl, onClose]);
+
+  const handleCopyUrl = async () => {
+    let copiedOk = false;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      copiedOk = true;
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = shareUrl;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      copiedOk = document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
+
+    if (copiedOk) {
+      setCopied(true);
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+      copyTimerRef.current = setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 z-[100] flex items-center justify-center"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="qr-modal-title"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -22,96 +93,66 @@ export default function QRModal({ isOpen, onClose }) {
 
           {/* Modal */}
           <motion.div
-            className="relative z-10 rounded-2xl p-8 glass max-w-sm w-full mx-4"
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            className="relative z-10 rounded-2xl p-6 sm:p-8 glass max-w-sm w-full"
+            initial={{ scale: 0.92, opacity: 0, y: 16 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+            exit={{ scale: 0.92, opacity: 0, y: 16 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
           >
             <button
+              type="button"
               onClick={onClose}
-              className="absolute top-4 right-4 p-1 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
+              className="absolute top-4 right-4 p-1.5 rounded-full hover:bg-[var(--bg-elevated)] transition-colors cursor-pointer"
               aria-label="Close modal"
             >
               <X size={18} style={{ color: "var(--text-muted)" }} />
             </button>
 
             <h3
-              className="text-lg font-semibold mb-4 text-center"
+              id="qr-modal-title"
+              className="text-lg font-semibold mb-1.5 text-center"
               style={{ color: "var(--text-primary)" }}
             >
               Share this portfolio
             </h3>
 
-            {/* QR Code placeholder using SVG */}
-            <div className="flex justify-center mb-4">
-              <div
-                className="w-48 h-48 rounded-xl flex items-center justify-center"
-                style={{
-                  background: "white",
-                  padding: "1rem",
-                }}
-              >
-                <svg viewBox="0 0 100 100" width="160" height="160">
-                  {/* Simple QR-like pattern */}
-                  <rect x="5" y="5" width="25" height="25" rx="2" fill="#000" />
-                  <rect x="70" y="5" width="25" height="25" rx="2" fill="#000" />
-                  <rect x="5" y="70" width="25" height="25" rx="2" fill="#000" />
-                  <rect x="10" y="10" width="15" height="15" rx="1" fill="#fff" />
-                  <rect x="75" y="10" width="15" height="15" rx="1" fill="#fff" />
-                  <rect x="10" y="75" width="15" height="15" rx="1" fill="#fff" />
-                  <rect x="14" y="14" width="7" height="7" fill="#000" />
-                  <rect x="79" y="14" width="7" height="7" fill="#000" />
-                  <rect x="14" y="79" width="7" height="7" fill="#000" />
-                  {/* Data modules */}
-                  {Array.from({ length: 12 }).map((_, i) =>
-                    Array.from({ length: 12 }).map((_, j) => {
-                      const x = 35 + j * 3;
-                      const y = 5 + i * 3;
-                      if (Math.random() > 0.5) {
-                        return (
-                          <rect
-                            key={`${i}-${j}`}
-                            x={x}
-                            y={y}
-                            width="2.5"
-                            height="2.5"
-                            fill="#000"
-                          />
-                        );
-                      }
-                      return null;
-                    })
-                  )}
-                  {Array.from({ length: 12 }).map((_, i) =>
-                    Array.from({ length: 20 }).map((_, j) => {
-                      const x = 5 + j * 3;
-                      const y = 40 + i * 3;
-                      if (Math.random() > 0.55) {
-                        return (
-                          <rect
-                            key={`b-${i}-${j}`}
-                            x={x}
-                            y={y}
-                            width="2.5"
-                            height="2.5"
-                            fill="#000"
-                          />
-                        );
-                      }
-                      return null;
-                    })
-                  )}
-                </svg>
+            <p
+              className="text-center text-xs mb-5"
+              style={{ color: "var(--text-muted)" }}
+            >
+              Scan to visit on your phone
+            </p>
+
+            {/* Real Scannable QR Code */}
+            <div className="flex justify-center mb-5">
+              <div className="w-48 h-48 rounded-2xl bg-white p-3.5 border border-black/10 shadow-[inset_0_2px_6px_rgba(0,0,0,0.1),0_8px_20px_rgba(0,0,0,0.28)] flex items-center justify-center">
+                {qrDataUrl ? (
+                  <img
+                    src={qrDataUrl}
+                    alt={`QR code linking to ${shareUrl}`}
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <span className="text-xs text-zinc-500">Generating QR...</span>
+                )}
               </div>
             </div>
 
-            <p
-              className="text-center text-sm"
-              style={{ color: "var(--text-muted)" }}
+            <div
+              className="pill-3d flex items-center justify-between gap-2 rounded-xl px-3 py-2 text-xs font-mono"
+              style={{ color: "var(--text-secondary)" }}
             >
-              Scan to visit this portfolio on your phone
-            </p>
+              <span className="truncate">{shareUrl}</span>
+              <button
+                type="button"
+                onClick={handleCopyUrl}
+                className="btn-3d-secondary inline-flex items-center gap-1 shrink-0 rounded-lg px-2.5 py-1 font-medium cursor-pointer"
+                style={{ color: copied ? "var(--accent-text)" : "var(--text-primary)" }}
+              >
+                {copied ? <Check size={13} /> : <Copy size={13} />}
+                <span>{copied ? "Copied!" : "Copy link"}</span>
+              </button>
+            </div>
           </motion.div>
         </motion.div>
       )}

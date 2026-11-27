@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { Check, Copy } from "lucide-react";
 
 const MARKDOWN_CONTENT = `# Saurav Pratihasta
 /'sɔː.rʌb/prə.tiː.hʌs.tə/ • noun • {{TIME}}
@@ -15,7 +16,7 @@ A [polymath](https://en.wikipedia.org/wiki/Polymath) who bridges technical archi
 ## Experience
 
 ### TCS (Tata Consultancy Services)
-**Software Engineer, Noida, IN
+**Software Engineer, Noida, IN**
 *September 2024 - Present*
 
 As an early software engineer bridging product strategy and technical execution, I am driving the development of an AI-native messaging platform from zero to one.
@@ -26,10 +27,11 @@ Key focus areas include:
 - Collaborating within a lean team to build robust tools for AI-driven communication.
 - Operating top-to-bottom, from product conception to complete software development.
 
-## ConsultAdd
+### ConsultAdd
 **Automation & Cloud Engineer, Pune, IN**
 *July 2023 - August 2024*
-As a Automation & Cloud Engineer at ConsultAdd, I was immersed in designing and developing cutting-edge Agentic AI systems.
+
+As an Automation & Cloud Engineer at ConsultAdd, I was immersed in designing and developing cutting-edge Agentic AI systems.
 
 Built autonomous, goal-driven AI agents that shifted from suggestion-based tools to proactive execution, enabling seamless human-AI collaboration and redefining task automation and decision-making.
 
@@ -39,7 +41,6 @@ Operated in a high-intensity environment surrounded by world-class cofounders, m
 
 Positioned at the forefront of a paradigm shift in AI, tackling hard technical and conceptual challenges to create meaningful, scalable impact in the emerging agentic era.
 
-
 Designed and developed a comprehensive system for managing Access Control List (ACL) permissions across multiple Linux file system servers, including NFS and BeeGFS, demonstrating expertise in large-scale distributed systems and secure file management.
 
 Built a robust backend capable of processing millions of permission change requests, showcasing proficiency in high-performance computing and scalability.
@@ -48,7 +49,7 @@ Implemented two Linux systemd daemons communicating via Unix sockets: one for gR
 
 Created a user-friendly Next.js frontend enabling secure login, backend communication, and scheduling of permission requests, illustrating full-stack development capabilities and focus on intuitive user experiences.
 
-
+---
 
 ## In Between These Experiences
 
@@ -70,8 +71,6 @@ Next came **Storic**, a news app where I spent months doing serious infrastructu
 
 ---
 
----
-
 ## Tech Stack
 
 Next.js, Go, Python, Hugging Face, TypeScript, React, Tailwind CSS, GitHub, Git, Docker, PostgreSQL, FastAPI, MongoDB, Shadcn UI, Redis, Vercel
@@ -83,8 +82,6 @@ Next.js, Go, Python, Hugging Face, TypeScript, React, Tailwind CSS, GitHub, Git,
 Here is how I explain complex systems on my [YouTube Channel](https://www.youtube.com/@theracecondition)
 
 Featured Video: [https://www.youtube.com/embed/m84tBP_4DWE](https://www.youtube.com/embed/m84tBP_4DWE)
-
----
 
 ---
 
@@ -106,7 +103,7 @@ Featured Video: [https://www.youtube.com/embed/m84tBP_4DWE](https://www.youtube.
 - **Deep Work** by Cal Newport
 - **The Anthology of Balaji Srinivasan** by Eric Jorgenson
 
-*and many more, these are just one of my best reads
+*and many more, these are just some of my best reads*
 
 ---
 
@@ -120,19 +117,20 @@ I believe that the best products are built by people who have a diverse range of
 
 ## Get in Touch
 
-Connect with me on [LinkedIn](https://https://www.linkedin.com/in/saurav-pratihast/) or shoot an [email](mailto:spratihast9@gmail.com)
+Connect with me on [LinkedIn](https://www.linkedin.com/in/saurav-pratihast/) or shoot an [email](mailto:spratihast9@gmail.com)
 
 ---
 
 **Links:**
 - GitHub: [https://github.com/saurav220](https://github.com/saurav220)
-- LinkedIn: [https://https://www.linkedin.com/in/saurav-pratihast/](https://https://www.linkedin.com/in/saurav-pratihast/)
+- LinkedIn: [https://www.linkedin.com/in/saurav-pratihast/](https://www.linkedin.com/in/saurav-pratihast/)
 - Twitter: [https://x.com/PratihastSaurav](https://x.com/PratihastSaurav)
-- Discord: haven't made one
 - Calendar: [https://cal.com/saurav-pratihast/30min](https://cal.com/saurav-pratihast/30min)`;
 
 export default function AgentModeView() {
   const [time, setTime] = useState("");
+  const [copied, setCopied] = useState(false);
+  const copyTimerRef = useRef(null);
 
   useEffect(() => {
     const updateTime = () => {
@@ -149,18 +147,69 @@ export default function AgentModeView() {
     };
     updateTime();
     const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+    };
   }, []);
 
   const content = MARKDOWN_CONTENT.replace("{{TIME}}", time);
+
+  const handleCopyMarkdown = async () => {
+    let copiedOk = false;
+    try {
+      await navigator.clipboard.writeText(content);
+      copiedOk = true;
+    } catch {
+      const textarea = document.createElement("textarea");
+      textarea.value = content;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      copiedOk = document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
+
+    if (copiedOk) {
+      setCopied(true);
+      if (copyTimerRef.current) clearTimeout(copyTimerRef.current);
+      copyTimerRef.current = setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   return (
     <motion.div
       className="agent-raw-md"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
+      transition={{ duration: 0.35 }}
     >
+      <div
+        className="mb-6 pb-4 border-b flex flex-wrap items-center justify-between gap-3"
+        style={{ borderColor: "var(--border-color)" }}
+      >
+        <span
+          className="text-xs font-mono uppercase tracking-[0.18em]"
+          style={{ color: "var(--accent-text)" }}
+        >
+          AGENT MODE &middot; RAW MARKDOWN
+        </span>
+
+        <button
+          type="button"
+          onClick={handleCopyMarkdown}
+          className="btn-3d-secondary inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-mono cursor-pointer"
+          style={{
+            color: copied ? "var(--accent-text)" : "var(--text-primary)",
+          }}
+        >
+          {copied ? <Check size={13} /> : <Copy size={13} />}
+          <span>{copied ? "Copied!" : "Copy Markdown"}</span>
+        </button>
+      </div>
+
       <pre>{content}</pre>
     </motion.div>
   );

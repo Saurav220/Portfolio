@@ -2,6 +2,8 @@ export const personalInfo = {
   name: "Saurav Pratihasta",
   phonetic: "/'sɔː.rʌb/prə.tiː.hʌs.tə/",
   title: "noun",
+  audience:
+    "Helping AI-native and early-stage product teams ship real-time systems that hold up at scale.",
   taglines: [
     {
       text: "a full-stack developer and ",
@@ -49,31 +51,55 @@ export const experience = [
     period: "July 2023 — August 2024",
     description: [
       "Designed and developed cutting-edge Agentic AI systems, building autonomous, goal-driven AI agents.",
-      "Drove a bold vision for the future of computing: making traditional web browsing obsolete, turning personal data into the primary interface.",
+      "Explored agent-driven interfaces as an alternative to traditional web browsing, prototyping systems where personal data feeds directly into the interaction model.",
       "Designed and developed a comprehensive system for managing ACL permissions across multiple Linux file system servers.",
       "Built a robust backend capable of processing millions of permission change requests.",
     ],
   },
 ];
 
-export const projects = [
+export const caseStudies = [
   {
-    title: "Imgwiper",
-    description:
-      "A tool that cleaned image metadata. First real attempt at shipping something complete during sophomore year.",
-    tags: ["Privacy", "Metadata", "CLI"],
-    link: "https://github.com/saurav220",
-    featured: true,
-    size: "large",
+    company: "TCS",
+    companyFull: "TCS (Tata Consultancy Services)",
+    companyClassName: "company-badge-tcs",
+    title: "AI-Native Messaging Platform",
+    period: "Sep 2024 — Present",
+    problem:
+      "TCS needed an AI-focused messaging ecosystem built from zero to one — no existing product, no established interaction patterns for AI-driven communication.",
+    approach:
+      "Architected and built the platform's core product features and real-time systems, including new ways to transform and present information dynamically within the messaging interface, bridging product strategy and technical execution within a lean team.",
+    outcome:
+      "Took the product from an idea to a working, in-production architecture — now the team's core AI-native messaging platform.",
+    tags: ["AI/ML", "Real-time Systems", "Product Strategy"],
   },
   {
-    title: "Storic",
-    description:
-      "A news app with serious infrastructure work. Learned to build systems that could scale, not just features that looked good.",
-    tags: ["React", "Node.js", "Infrastructure"],
-    link: "https://github.com/saurav220",
-    featured: true,
-    size: "large",
+    company: "CA",
+    companyFull: "ConsultAdd",
+    companyClassName: "company-badge-ca",
+    title: "ACL Permission Management System",
+    period: "Jul 2023 — Aug 2024",
+    problem:
+      "Managing ACL permissions across multiple Linux file system servers was fragmented and manual, with no unified system to handle change requests reliably at scale.",
+    approach:
+      "Designed and built a comprehensive ACL permission management system, with a backend engineered specifically to handle high-volume change traffic across distributed servers.",
+    outcome: "Backend processed millions of permission change requests in production.",
+    tags: ["Distributed Systems", "Linux", "Backend", "Access Control"],
+  },
+  {
+    company: "CA",
+    companyFull: "ConsultAdd",
+    companyClassName: "company-badge-ca",
+    title: "Agentic AI Systems",
+    period: "Jul 2023 — Aug 2024",
+    problem:
+      "Explored what it would take for autonomous, goal-driven AI agents to handle tasks without constant human direction — including rethinking the browser-centric interaction model itself.",
+    approach:
+      "Designed and developed agentic AI systems capable of autonomous, goal-driven behavior, and prototyped agent-driven interfaces where personal data feeds directly into the interaction model as an alternative to traditional web browsing.",
+    outcome:
+      "Delivered functioning autonomous, goal-driven agents — hands-on groundwork in the agentic AI patterns that are now industry-wide.",
+    tags: ["Agentic AI", "Automation", "Prototyping"],
+    wide: true,
   },
 ];
 

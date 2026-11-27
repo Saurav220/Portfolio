@@ -1,3 +1,4 @@
+import { MotionConfig } from "framer-motion";
 import { ThemeProvider, useTheme } from "./context/ThemeContext";
 import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
@@ -50,8 +51,10 @@ function AppContent() {
 
 export default function App() {
   return (
-    <ThemeProvider>
-      <AppContent />
-    </ThemeProvider>
+    <MotionConfig reducedMotion="user">
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
+    </MotionConfig>
   );
 }

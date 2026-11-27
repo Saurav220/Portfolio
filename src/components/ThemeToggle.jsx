@@ -8,20 +8,21 @@ export default function ThemeToggle() {
 
   return (
     <motion.button
+      type="button"
       onClick={toggleTheme}
-      className="fixed top-6 right-6 z-50 flex items-center gap-2 rounded-full px-3 py-2 glass cursor-pointer"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50 flex h-10 w-10 items-center justify-center rounded-full glass cursor-pointer transition-colors hover:border-[var(--accent-text)]"
+      whileHover={{ scale: 1.06 }}
+      whileTap={{ scale: 0.94 }}
       aria-label={`Switch to ${isDark ? "light" : "dark"} mode`}
       title={`Switch to ${isDark ? "light" : "dark"} mode`}
     >
       <motion.div
         initial={false}
         animate={{ rotate: isDark ? 0 : 180 }}
-        transition={{ duration: 0.4, ease: "easeInOut" }}
+        transition={{ duration: 0.35, ease: "easeInOut" }}
       >
         {isDark ? (
-          <Moon size={16} className="text-[var(--color-accent)]" />
+          <Moon size={16} style={{ color: "var(--accent-text)" }} />
         ) : (
           <Sun size={16} className="text-amber-500" />
         )}
